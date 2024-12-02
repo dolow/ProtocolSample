@@ -690,15 +690,10 @@ interface ClusterScript {
    * スクリプトのトップレベルでの呼び出しのみサポートされます。
    * トップレベルで複数回呼ばれた場合、最後の登録のみが有効です。
    *
-   * ### ベータの機能
-   *
-   * ベータでは引数 `option` を指定できます。
-   * ベータでない場合、option引数を設定するとエラーになります。
-   *
    * `option`の指定によって、 {@link PlayerScript.sendTo | PlayerScript.sendTo} から送信されたメッセージを受け取ることができます。
    * {@link PlayerScript.sendTo | PlayerScript.sendTo} から送信されたメッセージを受け取る場合は、引数の `option` を設定してください。
    *
-   * optionが未設定の場合、あるいはベータではない場合、{@link ItemHandle.send | ItemHandle.send}からのメッセージのみ受け取ります。
+   * optionが未設定の場合、{@link ItemHandle.send | ItemHandle.send}からのメッセージのみ受け取ります。
    *
    * - `option.item` が `true` の場合、{@link ItemHandle.send | ItemHandle.send} から送信されたメッセージを受け取ります。
    * - `option.item` が `false` の場合、{@link ItemHandle.send | ItemHandle.send} から送信されたメッセージを無視します。
@@ -712,8 +707,6 @@ interface ClusterScript {
    *
    * コールバックに渡される `sender` の値は ItemHandle または PlayerHandle です。
    * この値の取り扱い方はScript Referenceトップページの [ハンドル](/script/#%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AB) も参照してください。
-   *
-   * ベータではない場合、{@link ItemHandle.send | ItemHandle.send}からのメッセージのみ受け取ります。
    *
    * @example
    * ```ts
@@ -732,7 +725,7 @@ interface ClusterScript {
    *
    * @example
    * ```ts
-   * // PlayerScriptからのattackメッセージを受け取りログを出力する。（ベータ）
+   * // PlayerScriptからのattackメッセージを受け取りログを出力する。
    * $.onReceive((messageType, arg, sender) => {
    *   if (messageType === "attack") {
    *     if (sender instanceof ItemHandle) {
@@ -743,7 +736,7 @@ interface ClusterScript {
    * ```
    *
    * @param callback senderは送信元のアイテムまたはプレイヤーを表します。
-   * @param option (beta) コールバックの登録のオプションです。受け取るメッセージの種類を指定できます。
+   * @param option コールバックの登録のオプションです。受け取るメッセージの種類を指定できます。
    */
   onReceive(callback: (messageType: string, arg: Sendable, sender: ItemHandle | PlayerHandle) => void, option?: { player: boolean, item: boolean }): void;
 
@@ -1050,7 +1043,6 @@ interface ClusterScript {
   callExternal(request: string, meta: string): void;
 
   /**
-   * @beta
    * アイテムのPlayerScriptコンポーネントが持つスクリプトをプレイヤーに登録します。
    * アイテムにPlayerScriptコンポーネントがついていない場合は例外を投げます。
    *
@@ -1060,6 +1052,10 @@ interface ClusterScript {
    * 同一のプレイヤーに対して複数回setPlayerScriptメソッドが呼ばれた場合、先に登録されていたスクリプトは削除され、最後に登録されたスクリプトだけが実行されます。
    *
    * 登録されたスクリプトからは、{@link PlayerScript.sourceItemId | PlayerScript.sourceItemId}を使うことで、スクリプトを登録したアイテムの参照を取得することができます。
+   * 
+   * #### クラフトアイテムの PlayerScript
+   *
+   * クラフトアイテムでは `setPlayerScript` はベータ機能です。
    */
   setPlayerScript(playerHandle: PlayerHandle): void;
 
@@ -1117,7 +1113,6 @@ interface ClusterScript {
   clearVisiblePlayers(): void;
 
   /**
-   * @beta 
    * このオブジェクトにアタッチされたUnityコンポーネントのハンドルを、型名を指定して取得します。
    * `type`として指定できるコンポーネント名については {@link UnityComponent} の説明を参照してください。
    * 
@@ -1261,13 +1256,13 @@ type SendablePrims = Vector2 | Vector3 | Quaternion | PlayerHandle | ItemHandle;
  *   object: { foo: "bar" },
  * });
  * ```
- * @player @beta
+ * @player
  */
 type PlayerScriptSendable = ExtJSON<PlayerScriptSendablePrims>;
 
 /**
  * {@link PlayerScriptSendable}で通常のJSONに加えて送信可能な型です。
- * @player @beta
+ * @player
  */
 type PlayerScriptSendablePrims = Vector2 | Vector3 | Quaternion | PlayerId | ItemId;
 
@@ -1502,7 +1497,6 @@ interface SubNode {
   setTextColor(r: number, g: number, b: number, a: number): void;
 
   /**
-   * @beta 
    * このオブジェクトにアタッチされたUnityコンポーネントのハンドルを、型名を指定して取得します。
    * `type`として指定できるコンポーネント名については {@link UnityComponent} の説明を参照してください。
    * 
@@ -2428,7 +2422,6 @@ declare class PlayerHandle {
   setPostProcessEffects(effects: PostProcessEffects | null): void
 
   /**
-   * @beta
    * PlayerScriptにメッセージを送ります。
    * 送られた対象は{@link PlayerScript.onReceive | PlayerScript.onReceive}に設定したコールバックを呼ぶことが期待されます。
    * メッセージのペイロード（`arg`引数）に使用できるデータについては{@link Sendable}を参照してください。
@@ -2940,6 +2933,120 @@ declare class Vector2 {
    * @param a 補間の範囲を [0, 1] で指定します。
    */
   lerp(v: Vector2, a: number): this;
+}
+
+/**
+ * 4Dベクトルです。
+ * 
+ * 値を操作するメソッドは基本的に破壊的操作であるため、影響を与えたくない場合は明示的に`clone()`を呼び出してインスタンスを複製してください。
+ */
+declare class Vector4 {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+
+  constructor();
+  constructor(x: number, y: number, z: number, w: number);
+
+  /**
+   * 自身の値と`v`を比較し、ほとんど等しいときに`true`を返します。
+   * 
+   * @param v
+   */
+  equals(v: Vector4): boolean;
+
+  /**
+   * 自身の`x`, `y`, `z`, `w`成分の値を設定します。
+   * 
+   * @param x 
+   * @param y 
+   * @param z 
+   * @param w
+   */
+  set(x: number, y: number, z: number, w: number): this;
+
+  /**
+   * インスタンスを複製します。
+   */
+  clone(): Vector4;
+
+  /**
+   * 自身 と `v` の間を `a` で線形に補間した値を計算し、計算結果で自身の値を更新します。
+   * 
+   * @param v 
+   * @param a 補間の範囲を [0, 1] で指定します。
+   */
+  lerp(v: Vector4, a: number): this;
+}
+
+/**
+ * 色を表すデータ型です。
+ * `r`, `g`, `b`, `a` の各要素は [0, 1] の範囲で指定します。
+ * 
+ * 値を操作するメソッドは基本的に破壊的操作であるため、影響を与えたくない場合は明示的に`clone()`を呼び出してインスタンスを複製してください。
+ */
+declare class Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+
+  /** 
+   * 全ての成分の値を0で初期化してインスタンスを生成します。
+   */
+  constructor();
+
+  /** 
+   * RGB成分を指定してインスタンスを生成します。 `a` の値は1として初期化されます。
+   */
+  constructor(r: number, g: number, b: number);
+  
+  /** 
+   * RGBA成分を指定してインスタンスを生成します。
+   */
+  constructor(r: number, g: number, b: number, a: number);
+
+  /**
+   * 自身の値と`v`を比較し、ほとんど等しいときに`true`を返します。
+   * 
+   * @param v
+   */
+  equals(v: Color): boolean;
+
+  /**
+   * 自身の`r`, `g`, `b`, `a`成分の値を設定します。
+   * 
+   * @param r 
+   * @param g
+   * @param b
+   * @param a
+   */
+  set(r: number, g: number, b: number, a: number): this;
+
+  /**
+   * 自身に対し、HSVを指定してRGB成分を更新します。`a` の値は更新されません。
+   * 
+   * `h`, `s`, `v`はいずれも [0, 1] の範囲で指定します。
+   * 
+   * @param h 
+   * @param s 
+   * @param v 
+   */
+  setFromHsv(h: number, s: number, v: number): this;
+
+  /**
+   * インスタンスを複製します。
+   */
+  clone(): Color;
+
+  /**
+   * 自身 と `c` の間を `t` で線形に補間した値を計算し、計算結果で自身の値を更新します。
+   * 
+   * @param c 
+   * @param t 補間の範囲を [0, 1] で指定します。
+   */
+  lerp(c: Color, t: number): this;
 }
 
 /**
@@ -3865,7 +3972,7 @@ interface MaterialHandle {
  * このスクリプトでは次のことを行っています。
  * - `"send"` というメッセージを受け取ると、その送信者のItemIdを `itemId` という変数に記録します
  * - `itemId` という変数がnullかどうかを毎フレームチェックして、nullではない場合にメッセージを送りnullを代入します
- * @player @beta
+ * @player
  */
 declare const _: PlayerScript;
 
@@ -3873,11 +3980,10 @@ declare const _: PlayerScript;
  * PlayerScriptを操作するハンドルです。`_`オブジェクトからアクセスできます。
  *
  * PlayerScriptは{@link ClusterScript.setPlayerScript | ClusterScript.setPlayerScript}で設定することで生成されます。
- * @player @beta
+ * @player
  */
 interface PlayerScript {
   /**
-   * @beta
    * {@link ClusterScript.setPlayerScript | ClusterScript.setPlayerScript}を呼び出したPlayer Scriptコンポーネントを持っている元のItemの{@link ItemId | ItemId}です。
    */
   readonly sourceItemId: ItemId;
@@ -3889,7 +3995,6 @@ interface PlayerScript {
   readonly playerId: PlayerId;
 
   /**
-   * @beta
    * `v`の内容を`toString`したものをログに出力します。
    *
    * @param v
@@ -3897,48 +4002,12 @@ interface PlayerScript {
   log(v: any): void;
 
   /**
-   * @beta
    * PlayerScriptからデータを送信するときのデータサイズを計算して、byte数を返します。
    * sendに対応していないデータの場合は{@link TypeError}が発生します。
    */
   computeSendableSize(arg: PlayerScriptSendable): number;
 
   /**
-   * @beta
-   * このPlayerScriptが初期化されたとき、
-   * 初めてonFrameが実行される前に一度だけ呼ばれるcallbackを登録します。
-   *
-   * このPlayerScriptが初期化されたときとは、
-   * `$.setPlayerScript()`を利用して
-   * アイテムに添付したPlayer Scriptコンポーネントのスクリプトが
-   * PlayerScriptに登録され
-   * スクリプトがロードされて有効化されたときを指します。
-   *
-   * 複数回呼ばれた場合、最後の登録のみが有効になります。
-   *
-   * @deprecated
-   * `_.onStart()` は廃止予定です。
-   * PlayerScriptの初期化時に一度だけ実行する処理は、代わりに、スクリプトのトップレベルに直接書いてください。
-   *
-   * @example
-   * ```ts
-   * // NG
-   * _.onStart(() => {
-   *   _.log("PlayerScript is initialized.");
-   * });
-   * ```
-   *
-   * ```ts
-   * // OK
-   * _.log("PlayerScript is initialized.");
-   * ```
-   *
-   * @param callback
-   */
-  onStart(callback: () => void): void;
-
-  /**
-   * @beta
    * 毎フレーム呼ばれるcallbackを登録します。
    * このコールバックは毎フレーム呼ばれることが保証されています。
    *
@@ -3962,7 +4031,6 @@ interface PlayerScript {
   onFrame(callback: (deltaTime: number) => void): void;
 
   /**
-   * @beta
    * {@link PlayerHandle.send | PlayerHandle.send}、または{@link PlayerScript.sendTo | PlayerScript.sendTo}で{@link PlayerId | PlayerId}宛てに送られたメッセージを受け取ったときに呼ばれるcallbackを登録します。
    *
    * 複数回呼ばれた場合、最後の登録のみが有効です。
@@ -4001,7 +4069,6 @@ interface PlayerScript {
   onReceive(callback: (messageType: string, arg: PlayerScriptSendable, sender: ItemId | PlayerId) => void, option?: { player: boolean, item: boolean }): void;
 
   /**
-   * @beta
    * アイテム・プレイヤーにメッセージを送ります。
    * 送られた対象は{@link ClusterScript.onReceive | ClusterScript.onReceive}や{@link PlayerScript.onReceive | PlayerScript.onReceive}に設定したコールバックを呼ぶことが期待されます。
    * メッセージのペイロード（`arg`引数）に使用できるデータについては{@link PlayerScriptSendable}を参照してください。
@@ -4028,13 +4095,11 @@ interface PlayerScript {
   sendTo(id: PlayerId | ItemId, messageType: string, arg: PlayerScriptSendable): void;
 
   /**
-   * @beta
    * プレイヤーがVRデバイスを使用して入室しているかどうかを取得します。
    */
   readonly isVr: boolean;
 
   /**
-   * @beta
    * プレイヤーがデスクトップ環境で入室しているかどうかを取得します。
    *
    * VR環境やモバイル環境での入室の場合はfalseを返します。
@@ -4042,7 +4107,6 @@ interface PlayerScript {
   readonly isDesktop: boolean;
 
   /**
-   * @beta
    * プレイヤーがモバイル環境で入室しているかどうかを取得します。
    *
    * VR環境やデスクトップ環境での入室の場合はfalseを返します。
@@ -4050,19 +4114,16 @@ interface PlayerScript {
   readonly isMobile: boolean;
 
   /**
-   * @beta
    * プレイヤーがWindows環境で入室しているかどうかを取得します。
    */
   readonly isWindows: boolean;
 
   /**
-   * @beta
    * プレイヤーがmacOS環境で入室しているかどうかを取得します。
    */
   readonly isMacOs: boolean;
 
   /**
-   * @beta
    * プレイヤーがAndroid環境で入室しているかどうかを取得します。
    *
    * Quest環境での入室の場合はtrueを返します。
@@ -4070,7 +4131,6 @@ interface PlayerScript {
   readonly isAndroid: boolean;
 
   /**
-   * @beta
    * プレイヤーがiOS環境で入室しているかどうかを取得します。
    */
   readonly isIos: boolean;
@@ -4165,9 +4225,9 @@ interface PlayerScript {
   humanoidAnimation(humanoidAnimationId: string): HumanoidAnimation;
 
   /**
-   * @beta プレイヤーの現在の位置をグローバル座標で取得します。
+   * プレイヤーの現在の位置をグローバル座標で取得します。
    *
-   * アバターがロード中である場合、nullを返します。
+   * 値の取得に失敗した場合、nullを返します。
    *
    * プレイヤーの移動状況をより詳細に取得するには、この関数に加えて {@link PlayerScript.getAvatarMovementFlags | PlayerScript.getAvatarMovementFlags} を利用します。
    *
@@ -4176,9 +4236,9 @@ interface PlayerScript {
   getPosition() : Vector3 | null;
 
   /**
-   * @beta プレイヤーの現在の方向をグローバル座標で取得します。
+   * プレイヤーの現在の方向をグローバル座標で取得します。
    *
-   * アバターがロード中である場合、nullを返します。
+   * 値の取得に失敗した場合、nullを返します。
    *
    * プレイヤーの移動状況をより詳細に取得するには、この関数に加えて {@link PlayerScript.getAvatarMovementFlags | PlayerScript.getAvatarMovementFlags} を利用します。
    *
@@ -4187,14 +4247,14 @@ interface PlayerScript {
   getRotation() : Quaternion | null;
 
   /**
-   * @beta プレイヤーの位置をグローバル座標で設定します。
+   * プレイヤーの位置をグローバル座標で設定します。
    *
    * @param position プレイヤーの位置
    */
   setPosition(position: Vector3): void;
 
   /**
-   * @beta プレイヤーの方向をグローバル座標で設定します。
+   * プレイヤーの方向をグローバル座標で設定します。
    *
    * この関数ではy軸回転のみが適用され、プレイヤーの向きは鉛直のままになります。
    *
@@ -4261,7 +4321,6 @@ interface PlayerScript {
   readonly cameraHandle: CameraHandle;
 
   /**
-   * @beta
    * アイテムのWorldItemReferenceListに含まれる、`worldItemReferenceId`が指定されたアイテムを参照する{@link ItemId}オブジェクトを返します。
    *
    * WorldItemReferenceListの詳細は[ドキュメント](https://docs.cluster.mu/creatorkit/item-components/world-item-reference-list/)を参照してください。
@@ -4308,7 +4367,6 @@ interface PlayerScript {
   raycastAll(position: Vector3, direction: Vector3, maxDistance: number): PlayerScriptRaycastResult[];
 
   /**
-   * @beta
    * アバターの移動やモーションに関する状態を、ビットマスクされたフラグの一覧として取得します。
    * 定義されているビットフラグは以下の通りです。
    *
@@ -4335,7 +4393,6 @@ interface PlayerScript {
   getAvatarMovementFlags(): number;
 
   /**
-   * @beta
    * プレイヤーのPlayerStorageにデータを上書き保存します。
    * 
    * 保存できるデータ（`data`引数）については{@link PlayerScriptSendable}を参照してください。
@@ -4381,7 +4438,6 @@ interface PlayerScript {
   setPlayerStorageData(data: PlayerScriptSendable): void;
 
   /**
-   * @beta
    * プレイヤーのPlayerStorageに保存されたデータを取得します。
    * 
    * クラフトアイテムで実行した場合はエラーになります。
@@ -4713,14 +4769,13 @@ interface CameraHandle {
 /**
  * PlayerScriptから扱えるアイテムの参照です。
  * {@link PlayerHandle.send | PlayerHandle.send} で送られたメッセージを受け取る際、ItemHandleはItemIdに変換されます。
- * @player @beta
+ * @player
  */
 declare class ItemId {
   /** @internal */
   private constructor();
 
   /**
-   * @beta
    * 空間内のアイテムを一意に表すIDの文字列表現です。
    * idが等しいItemIdは同一のアイテムを指し示します。
    * {@link ItemHandle.id | ItemHandle.id} の値と同じです。
@@ -4728,7 +4783,6 @@ declare class ItemId {
   readonly id: string;
 
   /**
-   * @beta
    * 文字列 "item" を返します。
    * この値は {@link ItemId} と {@link PlayerId} を区別するために利用できます。 
    */
@@ -4738,14 +4792,13 @@ declare class ItemId {
 /**
  * PlayerScriptから扱えるプレイヤーの参照です。
  * {@link PlayerHandle.send | PlayerHandle.send} で送られたメッセージを受け取る際、PlayerHandleはPlayerIdに変換されます。
- * @player @beta
+ * @player 
  */
 declare class PlayerId {
   /** @internal */
   private constructor();
 
   /**
-   * @beta
    * 空間内のプレイヤーを一意に表すIDの文字列表現です。
    * idが等しいPlayerIdは同一のプレイヤーを指し示します。
    * この値は同じユーザーでも入室ごとに異なります。
@@ -4754,7 +4807,6 @@ declare class PlayerId {
   readonly id: string;
 
   /**
-   * @beta
    * 文字列 "player" を返します。
    * この値は {@link ItemId} と {@link PlayerId} を区別するために利用できます。 
    */
@@ -4828,13 +4880,12 @@ interface OwnProduct {
 }
 
 /**
- * @player @beta
+ * @player
  * Player Scriptで参照可能なオブジェクトを操作するハンドルです。
  */
 interface PlayerLocalObject {
 
   /**
-   * @beta
    * オブジェクトの名前を指定して、このオブジェクトの子要素のオブジェクトを取得します。
    * 
    * この関数では `Item` コンポーネントがアタッチされたオブジェクト、およびその子要素は取得できません。
@@ -4879,7 +4930,6 @@ interface PlayerLocalObject {
   getTotalEnabled(): boolean;
 
   /**
-   * @beta
    * このオブジェクトにアタッチされたUnityコンポーネントのハンドルを、型名を指定して取得します。
    * `type`として指定できるコンポーネント名については {@link UnityComponent} の説明を参照してください。
    * 
@@ -4895,7 +4945,6 @@ interface PlayerLocalObject {
 }
 
 /**
- * @beta
  * オブジェクトにアタッチされたUnityコンポーネントを操作するためのハンドルです。
  * 
  * このハンドルは下記の関数で取得できます。
@@ -4944,7 +4993,6 @@ interface PlayerLocalObject {
 interface UnityComponent { 
 
   /**
-   * @beta
    * Unityコンポーネントのプロパティを取得、または設定するためのハンドルを取得します。
    * 
    * このハンドルからプロパティを指定する場合、Unity C# でアクセス可能なコンポーネントのプロパティ名そのものを指定する必要があります。
@@ -4952,15 +5000,7 @@ interface UnityComponent {
    * 詳しくはUnityのAPIリファレンス等を参照してください。
    *  
    * `unityProp` でアクセスできるプロパティは、データ型が `bool`, `int`, `float`, `double`, `string`, `Vector2`, `Vector3`, `Vector4`, `Quaternion`, `Color`, または `Enum` の派生型のいずれかである必要があります。
-   * それ以外のデータ型のプロパティは取得を試みると `null` が返ります。また、プロパティを設定しようとすると例外になります。
-   * 
-   * `Vector4` 型のデータは長さが4の `float` 配列として表現され、要素は順に `x`, `y`, `z`, `w` に対応します。
-   * `Vector4` 型のプロパティを取得すると長さが4の `float` 配列が返ります。
-   * 同様に、 `Vector4` 型のプロパティを設定する場合は、長さが4の `float` 配列を指定します。
-   * 
-   * `Color` 型のデータは長さが4の `float` 配列として表現され、要素は順に `r`, `g`, `b`, `a` に対応します。
-   * `Color` 型のプロパティを取得すると長さが4の `float` 配列が返ります。
-   * 同様に、 `Color` 型のプロパティを設定する場合は、長さが4の `float` 配列を指定します。
+   * それ以外のデータ型のプロパティでは取得を試みると `null` が返り、値を設定しようとすると例外になります。
    * 
    * `Enum` の派生型のデータを取得した場合、値に対応する `int` が返ります。
    * 同様に、`Enum` の派生型のデータを設定する場合、対応する `int` の値を指定します。
@@ -4986,7 +5026,7 @@ interface UnityComponent {
    * // Player Script で PlayerLocalObject のコンポーネントのプロパティにアクセスする例
    * let imageObject = _.playerLocalObject("ImageObject");
    * let image = imageObject.getUnityComponent("Image");
-   * image.unityProp.color = [1, 0, 0, 1];
+   * image.unityProp.color = new Color(1, 0, 0, 1);
    * 
    * let textObject = _.playerLocalObject("TextObject");
    * let textComponent = textObject.getUnityComponent("Text");

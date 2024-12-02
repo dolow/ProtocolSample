@@ -1,25 +1,33 @@
 /// <reference path="./index.d.ts" />
 
 /**
+ * damage プロトコルの送信側
+ * 衝突したアイテムに damage プロトコルのメッセージを送る
+ * 
  * Requirements:
  *   - MovebaleItem
  */
 
-const protocol = "damage";
+// 対応プロトコル
+let protocol = "damage";
 
+// 初期化処理、$.state の初期値を入れる
 $.onStart(() => {
-  $.state.direction = 0;
+  $.state.direction = null;
   $.state.addForce = false;
+  $.state.isWorldCraft = false;
 });
 
+// プレイヤーがインタラクトした時の処理
 $.onInteract((player) => {
-  // インタラクトしたプレイヤーの回転を取得する
+  // インタラクトしたプレイヤーのオイラー角のY回転を取得する
   $.state.direction = player.getRotation().createEulerAngles().y;
+  // 力を加えることを予約する
   $.state.addForce = true;
 });
 
 $.onPhysicsUpdate((dt) => {
-  // プレイヤーの回転情報がなければ何もしない
+  // 力を加えることを予約していなければ何もしない
   if (!$.state.addForce) {
     return;
   }
@@ -40,15 +48,28 @@ $.onPhysicsUpdate((dt) => {
   let vec = new Vector3(x * length, 0, z * length)
   
   // ベクトルを加えてボールを飛ばす
+  // addForce はゆるゲームジャム時点でベータ機能
   $.addForce(vec);
+
+  // クラフトアイテムの場合は unity component は取得できない
+  if (!$.state.isWorldCraft) {
+    try {
+      // 音を鳴らす
+      $.getUnityComponent("AudioSource").play();
+    } catch (e) {
+      $.state.isWorldCraft = true;
+    }
+  }
 
   // プレイヤーの回転情報を削除する
   $.state.addForce = false;
 });
 
+// 他の何かに衝突したときの処理
+// onCollide はゆるゲームジャム時点でベータ機能
 $.onCollide((collision) => {
-  // アイテムと衝突したときのみ処理する
-  const handle = collision.handle;
+  // ItemHandle と衝突したときのみ処理する
+  let handle = collision.handle;
   if (!handle) {
     return;
   }
@@ -56,8 +77,16 @@ $.onCollide((collision) => {
     return;
   }
 
+  // クラフトアイテムの場合は unity component は取得できない
+  try {
+    // 効果音を再生する
+    $.getUnityComponent("AudioSource").play();
+  } catch (e) {
+    $.state.isWorldCraft = true;
+  }
+
   // ベクトルの長さをダメージとして扱う
-  const vectorLength = collision.relativeVelocity.length() * 20;
+  let vectorLength = collision.relativeVelocity.length() * 20;
   // 衝突したアイテムが何かにかかわらずメッセージを送る
   handle.send(protocol, vectorLength);
 });
