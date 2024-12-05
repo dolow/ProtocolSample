@@ -721,6 +721,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SenderMagick3
       objectReference: {fileID: 0}
+    - target: {fileID: 4887164800273327550, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8498591967500715830, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
       propertyPath: m_Layer
       value: 14
@@ -1192,6 +1196,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SenderMagick2
       objectReference: {fileID: 0}
+    - target: {fileID: 4887164800273327550, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8498591967500715830, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
       propertyPath: m_Layer
       value: 14
@@ -1482,6 +1490,10 @@ PrefabInstance:
     - target: {fileID: 3990088063106471582, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
       propertyPath: m_Name
       value: SenderMagick1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4887164800273327550, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8498591967500715830, guid: b3c997a0353624238a0d7bd27d12b6d7, type: 3}
       propertyPath: m_Layer
