@@ -109,10 +109,10 @@ const Animations = Object.freeze({
 });
 
 const ButtonAssign = Object.freeze({
-  P: { index: 0, iconId: "" },
-  K: { index: 1, iconId: "" },
-  S: { index: 2, iconId: "" },
-  G: { index: 3, iconId: "" },
+  G: { index: 0, iconId: "G" },
+  P: { index: 1, iconId: "P" },
+  K: { index: 2, iconId: "K" },
+  S: { index: 3, iconId: "S" },
 });
 
 const HitLevel = Object.freeze({
@@ -262,7 +262,9 @@ function updateAnimation(dt) {
   if (!state.animationInverted && currentRate >= 1.0) {
     if (state.currentAnimation.is(DownAnimation)) {
       if (state.health <= 0) {
+        state.health = DefaultHealth;
         exitRecovery();
+        // TODO: game specific
         _.respawn();
         return;
       }

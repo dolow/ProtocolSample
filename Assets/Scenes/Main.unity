@@ -1334,6 +1334,7 @@ GameObject:
   - component: {fileID: 511648273}
   - component: {fileID: 511648272}
   - component: {fileID: 511648275}
+  - component: {fileID: 511648276}
   m_Layer: 0
   m_Name: Initializer
   m_TagString: Untagged
@@ -1356,37 +1357,37 @@ MonoBehaviour:
   humanoidAnimations:
   - id: P
     animation: {fileID: -203655887218126122, guid: 02235fc2ca6914d078b2f749e501dbbb, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: f3b2fec8ea59e4c0c9567f1982e54dc4, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 3730358aba5354e5a842d58967ba6ceb, type: 2}
   - id: K
     animation: {fileID: -203655887218126122, guid: 39680d555b72e4713aa2640aa8817d24, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 0ae403de71dd74928aef902871cfc95b, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 4cbb8c17d0c2b46fa88b4672cf2ff3da, type: 2}
   - id: S
     animation: {fileID: -203655887218126122, guid: 777786a76ba28468ea0cfa03ca9d1842, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: a8c8d966e2fe04d66a424941b0910e8d, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 520b0af2dee984efcb09877b5a6b32c7, type: 2}
   - id: G
     animation: {fileID: -203655887218126122, guid: e972768d438d0423894cdc5de9cea119, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 87c2ef9599e7d4abfad5b096812dcb59, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: f21154312f988413a8180cb75f92513c, type: 2}
   - id: DL
     animation: {fileID: -203655887218126122, guid: da80f755754bd4bbd9788ad60e6f9a03, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 78404b662ad3b465f9a7077b30ca0cf8, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 54d5ee1eedbd54e099c173d32bbad60d, type: 2}
   - id: DM
     animation: {fileID: -203655887218126122, guid: 7beb11a744a0349a8ba36391760d8c81, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 9ba22bb746cb14e2596ea1f4dc74d9e3, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 255820a6e5abf470abb8301097b77dd7, type: 2}
   - id: DH
     animation: {fileID: -203655887218126122, guid: 91b25e4e63fba4e52a71a48dfe60ba62, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 7ab26bafb40f14d8ab6162e03bf055fb, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 145faca0d8c13450e8887ca020ea1b39, type: 2}
   - id: Down
     animation: {fileID: -203655887218126122, guid: 09fca4d7a75374ef6989b88cbebfd044, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: d9734958ab21b442681a2719ecf889af, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 71661e56fe43f48e094f7bb757d3b303, type: 2}
   - id: StandUp
     animation: {fileID: -203655887218126122, guid: 1ee6193e58cd3441a9c6588be41ad227, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 0b7b353259fda43e2aaba65b96b06a6f, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 65a39182523f14514acd9448da824117, type: 2}
   - id: Idle
     animation: {fileID: -203655887218126122, guid: c4c4293a23e4c4cb68d7dc568bfa553b, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 19cd052a57565406ca97a2ef854ab55d, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 4d3c61ac9d1ee46b9a6a0a8a12e44a8a, type: 2}
   - id: Jump
     animation: {fileID: -203655887218126122, guid: a173f2ed07df947a2be637760702cd82, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 526ca75f034eb4c458fae985c31cdbf6, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: ad57684536d5645d299810785e59cbf0, type: 2}
 --- !u!4 &511648271
 Transform:
   m_ObjectHideFlags: 0
@@ -1464,6 +1465,27 @@ MonoBehaviour:
     worldItemTemplate: {fileID: 8096416527544540526, guid: 104b0d1d50d85464f90f386fb8004305, type: 3}
     itemTemplateId:
       value: 10036250671722488308
+--- !u!114 &511648276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511648269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d439cdf83dc3d4eb5178b5e57764dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconAssets:
+  - id: G
+    image: {fileID: 2800000, guid: 672da58d09caa4b10b43eb4f1c9c3b5e, type: 3}
+  - id: P
+    image: {fileID: 2800000, guid: bdb5cab4ec2b2438ba52f8213fc1e74f, type: 3}
+  - id: K
+    image: {fileID: 2800000, guid: efe3ec11e28b9453e854180feb0d4a12, type: 3}
+  - id: S
+    image: {fileID: 2800000, guid: 596ffbcd4bfbb4cc9a43006de3fcfa0f, type: 3}
 --- !u!1 &514583206
 GameObject:
   m_ObjectHideFlags: 0
