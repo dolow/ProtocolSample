@@ -155,6 +155,7 @@ const DamageLevel = Object.freeze({
     speed: 2.2,
   }
 });
+
 function getDamageLevel(comboDamage, damage) {
   if (comboDamage >= 80) return DamageLevel.Down;
   if (damage < 10) return DamageLevel.DL;
@@ -163,6 +164,7 @@ function getDamageLevel(comboDamage, damage) {
 }
 
 const DamageFallSpeed = 2.0;
+const DefaultHealth = 180;
 
 const state = {
   hits: 0,
@@ -177,6 +179,7 @@ const state = {
   raycaster: null,
   hitbackDuration: 0.0,
   hitbackSpeed: 0.0,
+  health: DefaultHealth,
 };
 
 Object.keys(ButtonAssign).forEach(k => {
@@ -226,15 +229,21 @@ _.onReceive((id, body, sender) => {
 
       state.hits++;
       state.comboDamage += body;
-
-      const level = (isGrounded()) ? getDamageLevel(state.comboDamage, body) : DamageLevel.Down;
+      const comboRevisionedDamage = Math.max(body / state.hits, 1.0);
+      state.health -= comboRevisionedDamage;
+      
+      const level = (state.health <= 0)
+        ? DamageLevel.Down
+        : (isGrounded())
+          ? getDamageLevel(state.comboDamage, body)
+          : DamageLevel.Down;
       state.currentAnimation = level.animation;
       state.hitbackDuration += level.duration;
       state.hitbackSpeed = Math.max(state.hitbackSpeed, level.speed);
 
       _.sendTo(state.raycaster, supportedProtocols.showDamage,
         {
-          value: body,
+          value: comboRevisionedDamage,
           headPosition: _.getHumanoidBonePosition(HumanoidBone.Head) || _.getPosition().add(new Vector3(0, 2, 0)),
         }
       );
@@ -252,6 +261,12 @@ function updateAnimation(dt) {
   // end of animation
   if (!state.animationInverted && currentRate >= 1.0) {
     if (state.currentAnimation.is(DownAnimation)) {
+      if (state.health <= 0) {
+        exitRecovery();
+        _.respawn();
+        return;
+      }
+      
       state.currentAnimation = Animations.StandUp;
       // down motion does not keep root position
       enterRecovery();

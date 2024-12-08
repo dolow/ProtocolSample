@@ -1351,37 +1351,37 @@ MonoBehaviour:
   humanoidAnimations:
   - id: P
     animation: {fileID: -203655887218126122, guid: 02235fc2ca6914d078b2f749e501dbbb, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 18c5ffa6f43d04c129ec950b15a6bfa5, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: f3b2fec8ea59e4c0c9567f1982e54dc4, type: 2}
   - id: K
     animation: {fileID: -203655887218126122, guid: 39680d555b72e4713aa2640aa8817d24, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 6f9282452a0dd4af89e8d0144e5330f6, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 0ae403de71dd74928aef902871cfc95b, type: 2}
   - id: S
     animation: {fileID: -203655887218126122, guid: 777786a76ba28468ea0cfa03ca9d1842, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 97a33a0826da844f6a3a7a280ae4f428, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: a8c8d966e2fe04d66a424941b0910e8d, type: 2}
   - id: G
     animation: {fileID: -203655887218126122, guid: e972768d438d0423894cdc5de9cea119, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: c38dd974792ab4a30be4d17dd713a5a3, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 87c2ef9599e7d4abfad5b096812dcb59, type: 2}
   - id: DL
     animation: {fileID: -203655887218126122, guid: da80f755754bd4bbd9788ad60e6f9a03, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 196dd108542a14976ac5c34b6653f1f2, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 78404b662ad3b465f9a7077b30ca0cf8, type: 2}
   - id: DM
     animation: {fileID: -203655887218126122, guid: 7beb11a744a0349a8ba36391760d8c81, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: a64557c52bc3f4ce48d92044a19414b6, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 9ba22bb746cb14e2596ea1f4dc74d9e3, type: 2}
   - id: DH
     animation: {fileID: -203655887218126122, guid: 91b25e4e63fba4e52a71a48dfe60ba62, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: d3a23c2db66324b739a3be25b47b2c90, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 7ab26bafb40f14d8ab6162e03bf055fb, type: 2}
   - id: Down
     animation: {fileID: -203655887218126122, guid: 09fca4d7a75374ef6989b88cbebfd044, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 9d46168e37c034203a1b78bd0adb872b, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: d9734958ab21b442681a2719ecf889af, type: 2}
   - id: StandUp
     animation: {fileID: -203655887218126122, guid: 1ee6193e58cd3441a9c6588be41ad227, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 36771927bf46a4be99d720d1fc0b699d, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 0b7b353259fda43e2aaba65b96b06a6f, type: 2}
   - id: Idle
     animation: {fileID: -203655887218126122, guid: c4c4293a23e4c4cb68d7dc568bfa553b, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: 7b51964d5a05b4a21a75c81fb5d61526, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 19cd052a57565406ca97a2ef854ab55d, type: 2}
   - id: Jump
     animation: {fileID: -203655887218126122, guid: a173f2ed07df947a2be637760702cd82, type: 3}
-    humanoidAnimation: {fileID: 11400000, guid: f59b0888815224d6dad34a5532ad408f, type: 2}
+    humanoidAnimation: {fileID: 11400000, guid: 526ca75f034eb4c458fae985c31cdbf6, type: 2}
 --- !u!4 &511648271
 Transform:
   m_ObjectHideFlags: 0
